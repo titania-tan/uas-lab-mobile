@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'tab-profile',
     loadChildren: () => import('./tab-profile/tab-profile.module').then( m => m.TabProfilePageModule)
   },
+  {
+    path: 'regis',
+    loadChildren: () => import('./regis/regis.module').then( m => m.RegisPageModule)
+  },
 ];
 
 @NgModule({

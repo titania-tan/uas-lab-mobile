@@ -1,0 +1,47 @@
+<ion-content color="flower" >
+  <ion-grid class="bek">
+    <ion-row><ion-col></ion-col></ion-row>
+    <ion-row><ion-col></ion-col></ion-row>
+    <ion-row class="cen">
+      <ion-col size="12" size-md="8" offset="4">
+        <h1>REGISTER</h1>
+      </ion-col>
+    </ion-row>
+    <!--size="8" size-md="8" offset="2"-->
+    <ion-row >
+      <ion-col>
+        <ion-item color="wind">
+          <ion-label position="floating">E-mail</ion-label>
+          <ion-input type="email" [(ngModel)]="email" ></ion-input> <!--  -->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item color="wind">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="password"></ion-input> <!---->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item color="wind">
+          <ion-label position="floating">Confirm Password</ion-label>
+          <ion-input type="password" [(ngModel)]="cpassword"></ion-input> <!---->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-label position="floating">Already Have An Account Yet? <a href="../login">Login Here!</a></ion-label>
+        <ion-button class="button" color="wind" (click)="regis()">SignUp</ion-button> <!--(click)="toRegis()"-->
+      </ion-col>
+    </ion-row>
+
+
+  </ion-grid>
+</ion-content>

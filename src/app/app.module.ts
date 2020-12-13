@@ -12,13 +12,18 @@ import {environment} from '../environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
   AngularFireModule.initializeApp(environment.firebaseConfig),
-  AngularFireDatabaseModule],
+  AngularFireDatabaseModule,
+  AngularFireAuthModule,
+    AngularFireStorageModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,

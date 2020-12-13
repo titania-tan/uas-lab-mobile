@@ -1,38 +1,38 @@
-<ion-header>
-  <ion-toolbar color="flower">
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content color="wind">
-<ion-grid>
- <!-- <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)" >  size="8" size-md="8" offset="2"-->
-  <ion-row>
+<ion-content color="flower" >
+<ion-grid class="bek">
+    <ion-row><ion-col></ion-col></ion-row>
+    <ion-row><ion-col></ion-col></ion-row>
+    <ion-row class="cen">
+        <ion-col size="12" size-md="8" offset="5">
+            <h1>LOGIN</h1>
+        </ion-col>
+    </ion-row>
+   <!--size="8" size-md="8" offset="2"-->
+  <ion-row >
     <ion-col>
-      <ion-item color="flower">
+      <ion-item color="wind">
         <ion-label position="floating">E-mail</ion-label>
-        <ion-input></ion-input> <!-- type="email" formControlName="login_email"-->
+        <ion-input type="email" [(ngModel)]="email" ></ion-input> <!--  -->
       </ion-item>
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col>
-      <ion-item color="flower">
+      <ion-item color="wind">
         <ion-label position="floating">Password</ion-label>
-        <ion-input ></ion-input> <!--type="pass" formControlName="login_pass"-->
+        <ion-input type="password" [(ngModel)]="password"></ion-input> <!---->
       </ion-item>
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col>
-
-        <ion-label position="floating">Didn't Have An Account Yet? Register Here!</ion-label>
-        <ion-button class="button" color="flower">REGISTER</ion-button> <!--(click)="toRegis()"-->
-
+        <ion-label position="floating">Didn't Have An Account Yet? <a href="../regis">Register Here!</a></ion-label>
+        <ion-button class="button" color="wind" (click)="login()">LOGIN</ion-button> <!--(click)="toRegis()"-->
     </ion-col>
   </ion-row>
+
 
 </ion-grid>
 </ion-content>
