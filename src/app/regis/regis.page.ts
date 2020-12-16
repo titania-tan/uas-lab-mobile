@@ -16,6 +16,7 @@ export class RegisPage implements OnInit {
   password: string;
   cpassword: string;
   loadingUp: boolean;
+  currentUser: any;
 
   constructor(public faAuth: AngularFireAuth,
               private router: Router,
@@ -23,6 +24,16 @@ export class RegisPage implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    this.faAuth.onAuthStateChanged((user) => {
+      // console.log('===user', user);
+      if (user) {
+        console.log('login', user.uid);
+        this.userService.storeLoggedUser(user.uid);
+        this.router.navigateByUrl('home/home/tab-main');
+        this.currentUser = user;
+        this.userService.setLoggedInUser(user?.uid, user?.email);
+      }
+    });
   }
 
   goLogin(){
@@ -38,15 +49,27 @@ export class RegisPage implements OnInit {
       const result = await this.faAuth.createUserWithEmailAndPassword(email + '', password);
       this.router.navigateByUrl('home/home/tab-main');
       console.log(result);
+      await this.showAlert('Success!', 'welcome!');
     } catch (err){
       console.dir(err);
       if (err.code === 'auth/user-not-found'){
         console.log('user not found');
+        this.showAlert('Error', err.message);
       }
       if (err.code === 'auth/invalid-email'){
         console.log('the email address id badly formatted');
       }
     }
+  }
+
+  async showAlert(header: string, message: string){
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: ['ok']
+    });
+
+    await alert.present();
   }
 
 }

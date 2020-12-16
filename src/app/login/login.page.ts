@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {Router} from '@angular/router';
+import {UserService} from '../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,24 @@ export class LoginPage implements OnInit {
 
   email: string;
   password: string;
+  currentUser: any;
 
   constructor(public faAuth: AngularFireAuth,
-              private router: Router
+              private router: Router,
+              private userService: UserService
   ) { }
 
   ngOnInit() {
+    this.faAuth.onAuthStateChanged((user) => {
+      // console.log('===user', user);
+      if (user) {
+        console.log('login', user.uid);
+        this.userService.storeLoggedUser(user.uid);
+        this.router.navigateByUrl('home/home/tab-main');
+        this.currentUser = user;
+        this.userService.setLoggedInUser(user?.uid, user?.email);
+      }
+    });
 
     }
 
