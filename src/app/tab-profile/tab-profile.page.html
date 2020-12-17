@@ -8,9 +8,10 @@
   <ion-grid class="bek">
     <ion-row >
       <ion-col size="8" size-md="8" offset="2">
-          <ion-avatar class="pp">
-            <img src="https://dramasnacked.files.wordpress.com/2019/11/img_1454.png" (click)="upload()"/>
+          <ion-avatar class="camera">
+            <img alt="profpict" *ngIf="imageURL" src="https://ucarecdn.com/{{ imageURL }}/" />
           </ion-avatar>
+        <input type="file" (change)="fileChanged($event)"/>
       </ion-col>
     </ion-row>
     <ion-row>
