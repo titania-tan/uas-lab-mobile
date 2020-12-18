@@ -15,6 +15,8 @@ export class TabFriendsPage implements OnInit {
   user: User;
   uid: string;
   frens: Fren [];
+  userFilter: any;
+  searchValue: string;
   constructor(private userService: UserService,
               public faAuth: AngularFireAuth,
               private router: Router,
@@ -30,6 +32,27 @@ export class TabFriendsPage implements OnInit {
         this.uid = user.uid;
         this.userService.storeLoggedUser(user.uid);
       }
+    });
+  }
+
+  toadd(){
+    this.router.navigateByUrl('/tab-friends/add');
+  }
+
+  search(){
+    if (this.userFilter){
+      if (this.searchValue === ''){
+        this.userFilter = this.frens;
+      }
+      else{
+        this.filterFriend();
+      }
+    }
+  }
+
+  filterFriend(){
+    this.userFilter = this.frens.filter(user => {
+      return user.name.toLowerCase().includes(this.searchValue.toLowerCase());
     });
   }
 

@@ -1,13 +1,21 @@
 <ion-header>
   <ion-toolbar color="wind">
-    <ion-title>Friend List</ion-title>
+      <ion-buttons>
+          <ion-title>Friend List</ion-title>
+          <ion-button (click)="toadd()">
+              <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="flower">
   <ion-grid>
     <ion-row>
-      <ion-searchbar showCancelButton="never" color="wind"></ion-searchbar>
+      <ion-searchbar showCancelButton="never" color="wind" [(ngModel)]="searchValue" (ionChange)="search()">
+          <ion-input type="text" [(ngModel)]="searchValue" placeholder="Search your friend" (ionChange)="search()"></ion-input>
+      </ion-searchbar>
     </ion-row>
     <ion-list>
       <ion-card color="wind" *ngFor="let fren of frens">
