@@ -14,6 +14,9 @@ declare var google: any;
 })
 export class TabMainPage {
   map: any;
+  userMarker: any;
+  latitude: number;
+  longitude: number;
 
   @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
   user: User;
@@ -41,6 +44,7 @@ export class TabMainPage {
       longitude: '106.7665439693146'
     }
   ];
+
 
   constructor(private userService: UserService,
               private db: AngularFireDatabase,
@@ -75,6 +79,35 @@ export class TabMainPage {
     }
   }
 
+  getCurrLoc(){
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position: Position) => {
+        if (this.userMarker){
+          this.userMarker.setMap(null);
+        }
+
+        const pos = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+
+        this.latitude = pos.latitude;
+        this.longitude = pos.longitude;
+
+        this.userMarker = new google.maps.Marker({
+          position: new google.maps.LatLng(this.latitude, this.longitude),
+          map: this.map,
+
+        });
+        this.userMarker.info = new google.maps.InfoWindow({
+          content: 'Your Location',
+        });
+        this.userMarker.info.open(this.map, this.userMarker);
+        this.map.setCenter(pos);
+      });
+    }
+  }
+
   addInfoWindowsToMarker(marker){
     const infoWindowContent = '<div id="content">' +
         '<h2 id="firstHeading" class="firstHeading"> ' + ' marker.title' + '</h2>' +
@@ -100,14 +133,22 @@ export class TabMainPage {
   }
 
   showMap(){
-    const location = new google.maps.LatLng(-6.2561242950986795, 106.6184826777361);
+    const location = new google.maps.LatLng(-6.168703330013791, 106.7665439693146);
     const options = {
       center: location,
       zoom: 15,
       disableDefaultUI: true
     };
     this.map = new google.maps.Map(this.mapRef.nativeElement, options);
-    this.addMarkersToMap(this.markers);
+    this.userMarker = new google.maps.Marker({
+      position: options.center,
+      map: this.map,
+    });
+    this.userMarker.info = new google.maps.InfoWindow({
+      content: 'wheein',
+    });
+    this.userMarker.info.open(this.map, this.userMarker);
+    this.map.setCenter(this.userMarker.position);
   }
 
 }
