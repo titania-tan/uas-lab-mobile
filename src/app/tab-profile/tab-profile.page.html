@@ -1,45 +1,54 @@
 <ion-header>
   <ion-toolbar color="wind">
+    <ion-buttons>
     <ion-title>Profile</ion-title>
+    <ion-button (click)="signOut()" slot="end">Logout</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="flower" >
   <ion-grid class="bek">
-    <ion-row >
-      <ion-col size="8" size-md="8" offset="2">
-          <ion-avatar class="camera">
-            <img alt="profpict" *ngIf="imageURL" src="https://ucarecdn.com/{{ imageURL }}/" />
-          </ion-avatar>
-        <input type="file" (change)="fileChanged($event)"/>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" size-md="8" offset="4">
-        <ion-item color="flower">
-          <h1>Titania</h1>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8" size-md="8" offset="3">
-        <ion-item color="flower">
-          <h1>00000020822</h1>
-        </ion-item>
-      </ion-col>
-    </ion-row>
 
     <ion-row>
-      <ion-card>
+      <ion-card class="bek" color="flower">
+        <ion-col size="8" size-md="8" offset="2">
+          <ion-avatar  class="camera">
+            <img alt="profpict" *ngIf="imageURL" src="https://ucarecdn.com/{{ imageURL }}/" />
+          </ion-avatar>
+          <input type="file" *ngIf="!imageURL" (change)="fileChanged($event)"/>
+          <ion-button color="wind" (click)="createPost()">SAVE</ion-button>
+        </ion-col>
+      </ion-card>
+    </ion-row>
+    <ion-row class="bek">
+      <ion-col size="8" size-md="8" offset="4" class="pp">
+        <h1>Titania</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bek">
+      <ion-col size="8" size-md="8" offset="4" class="pp">
+        <h1>20822</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bek">
+      <ion-col size="8" size-md="8" offset="2" class="pp">
+        <ion-textarea placeholder="kesan : susah betul la ini" [(ngModel)]="desc"></ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="pp">
+      <ion-card color="flower">
         <ion-list>
-          <ion-item>
-              a
+          <ion-item color="flower">
+              a ela kenak limit uploadnya
           </ion-item>
-          <ion-item>
+          <ion-item color="flower">
               nanti di ng if
           </ion-item>
         </ion-list>
       </ion-card>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

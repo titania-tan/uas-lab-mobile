@@ -24,7 +24,7 @@ export class UserService {
     this.dbRef.child(`${uid}`).set({
       email: providerData[0].email,
       fullName,
-      imageUrl: '',
+      imageURL: '',
       location: []
     });
   }
@@ -36,7 +36,7 @@ export class UserService {
       this.loggedInUser.name = dataSnapshot.val().fullName || '';
       this.loggedInUser.email = dataSnapshot.val().email || email;
       this.loggedInUser.location = dataSnapshot.val().location || [];
-      this.loggedInUser.imageUrl = dataSnapshot.val().imageUrl || [];
+      this.loggedInUser.imageURL = dataSnapshot.val().imageURL || [];
 
       if (this.isLocalStorageSupported) {
         this.localStorage.setItem('user', JSON.stringify(this.loggedInUser));

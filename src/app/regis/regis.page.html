@@ -11,6 +11,15 @@
     <ion-row >
       <ion-col>
         <ion-item color="wind">
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="name" [(ngModel)]="name" ></ion-input> <!--  -->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row >
+      <ion-col>
+        <ion-item color="wind">
           <ion-label position="floating">E-mail</ion-label>
           <ion-input type="email" [(ngModel)]="email" ></ion-input> <!--  -->
         </ion-item>

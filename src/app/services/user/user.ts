@@ -4,6 +4,6 @@ export class User {
     id: string;
     name: string;
     email: string;
-    imageUrl: string;
+    imageURL: string;
     location: Array<Location>;
 }

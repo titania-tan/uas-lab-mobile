@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {PopoverController} from '@ionic/angular';
 import {ProfilepictureComponent} from './profilepicture/profilepicture.component';
 import {Http} from '@angular/http';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router} from '@angular/router';
+import {UserService} from '../user.service';
+import {User} from '../services/user/user';
+import {AngularFirestore} from '@angular/fire/firestore';
+import firebase from 'firebase';
+import firestore = firebase.firestore;
 
 
 @Component({
@@ -11,10 +18,24 @@ import {Http} from '@angular/http';
 })
 export class TabProfilePage implements OnInit {
   imageURL: string;
+  desc: string;
+  uid: string;
   constructor(private pop: PopoverController,
-              private http: Http) { }
+              private http: Http,
+              public faAuth: AngularFireAuth,
+              private router: Router,
+              public user: UserService,
+              public afstore: AngularFirestore) { }
 
   ngOnInit() {
+    this.faAuth.onAuthStateChanged((user) => {
+      if (!user) {
+        this.router.navigateByUrl('/login');
+      }
+      else {
+        this.uid = user.uid;
+      }
+    });
   }
   fileChanged(event){
     const files = event.target.files;
@@ -26,6 +47,24 @@ export class TabProfilePage implements OnInit {
     this.http.post('https://upload.uploadcare.com/base/', image).subscribe( event => {
       this.imageURL = event.json().file;
       // JSON.stringify(event.json.file);
+    });
+  }
+
+  signOut() {
+    return this.faAuth.signOut().then(() => {
+      this.router.navigateByUrl('/login');
+    });
+  }
+
+  createPost(){
+    const image = this.imageURL;
+    const desc = this.desc;
+
+    this.afstore.doc('users/${this.user.getUID()}' ).update({
+      posts: firestore.FieldValue.arrayUnion({
+        image,
+        desc
+      })
     });
   }
 

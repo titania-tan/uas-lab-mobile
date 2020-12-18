@@ -14,6 +14,7 @@ export class ProfilepictureComponent implements OnInit {
 
   ngOnInit() {}
 
+
   fileChanged(event){
     const files = event.target.files;
     const image = new FormData();
@@ -25,6 +26,7 @@ export class ProfilepictureComponent implements OnInit {
       this.imageURL = event.json().file;
       // JSON.stringify(event.json.file);
     });
+
   }
   }
 

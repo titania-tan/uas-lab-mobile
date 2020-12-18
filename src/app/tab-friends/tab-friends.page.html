@@ -9,18 +9,18 @@
     <ion-row>
       <ion-searchbar showCancelButton="never" color="wind"></ion-searchbar>
     </ion-row>
-    <ion-row>
-      <ion-card>
-        <ion-list>
-          <ion-item>
-            nanti di ng if
-          </ion-item>
-          <ion-item>
-            isinya friend list
-          </ion-item>
-        </ion-list>
+    <ion-list>
+      <ion-card color="wind" *ngFor="let fren of frens">
+            <ion-item color="wind">
+            <ion-avatar slot="start">
+              <ion-img [src]="fren.imageURL"></ion-img>
+            </ion-avatar>
+              <ion-label>{{fren.name}}</ion-label>
+            </ion-item>
+
       </ion-card>
-    </ion-row>
+    </ion-list>
+
   </ion-grid>
 
 </ion-content>

@@ -1,6 +1,6 @@
 export class Location {
     latitude: string;
     longitude: string;
-    locationName: string;
+    title: string;
     constructor() {}
 }

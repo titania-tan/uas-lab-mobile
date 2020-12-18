@@ -3,7 +3,8 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AlertController} from '@ionic/angular';
-import {UserService} from '../services/user/user.service';
+import {UserService} from '../user.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-regis',
@@ -13,25 +14,27 @@ import {UserService} from '../services/user/user.service';
 export class RegisPage implements OnInit {
 
   email: string;
+  name: string;
   password: string;
   cpassword: string;
   loadingUp: boolean;
   currentUser: any;
+  dbRef: any;
 
   constructor(public faAuth: AngularFireAuth,
               private router: Router,
               private alertCtrl: AlertController,
-              private userService: UserService) { }
+              private user: UserService,
+              public afstore: AngularFirestore
+  ) { }
 
   ngOnInit() {
     this.faAuth.onAuthStateChanged((user) => {
       // console.log('===user', user);
       if (user) {
         console.log('login', user.uid);
-        this.userService.storeLoggedUser(user.uid);
-        this.router.navigateByUrl('home/home/tab-main');
+        this.router.navigateByUrl('home/home/tab-profile');
         this.currentUser = user;
-        this.userService.setLoggedInUser(user?.uid, user?.email);
       }
     });
   }
@@ -41,15 +44,29 @@ export class RegisPage implements OnInit {
   }
 
   async regis(){
-    const { email, password, cpassword } = this;
+    const { name, email, password, cpassword } = this;
     if ( cpassword !== password){
       console.log('password dont match');
     }
     try {
       const result = await this.faAuth.createUserWithEmailAndPassword(email + '', password);
+
+      this.afstore.doc('users/${result.user.uid}').set({
+        name,
+        email
+      });
+
+      await this.showAlert('Success!', 'welcome!');
       this.router.navigateByUrl('home/home/tab-main');
       console.log(result);
-      await this.showAlert('Success!', 'welcome!');
+
+      if (result.user){
+        this.user.setUser({
+          name,
+          uid: result.user.uid
+        });
+
+      }
     } catch (err){
       console.dir(err);
       if (err.code === 'auth/user-not-found'){

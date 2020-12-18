@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {UserService} from '../services/user/user.service';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,8 @@ export class LoginPage implements OnInit {
 
   constructor(public faAuth: AngularFireAuth,
               private router: Router,
-              private userService: UserService
+              private userService: UserService,
+              public user: UserService
   ) { }
 
   ngOnInit() {
@@ -24,10 +25,8 @@ export class LoginPage implements OnInit {
       // console.log('===user', user);
       if (user) {
         console.log('login', user.uid);
-        this.userService.storeLoggedUser(user.uid);
         this.router.navigateByUrl('home/home/tab-main');
         this.currentUser = user;
-        this.userService.setLoggedInUser(user?.uid, user?.email);
       }
     });
 
@@ -38,8 +37,15 @@ export class LoginPage implements OnInit {
     const { email, password } = this;
     try {
       const result = await this.faAuth.signInWithEmailAndPassword(email + '', password);
-      this.router.navigateByUrl('home/home/tab-main');
-      console.log(result);
+
+      if (result.user){
+        this.user.setUser({
+          name,
+          uid: result.user.uid
+        });
+        this.router.navigateByUrl('home/home/tab-profile');
+        console.log(result);
+      }
     } catch (err){
       console.dir(err);
       if (err.code === 'auth/user-not-found'){

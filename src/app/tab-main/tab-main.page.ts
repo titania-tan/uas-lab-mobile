@@ -1,5 +1,10 @@
 import { Component} from '@angular/core';
 import { ViewChild, ElementRef} from '@angular/core';
+import {UserService} from '../services/user/user.service';
+import {User} from '../services/user/user';
+import {Router} from '@angular/router';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 declare var google: any;
 @Component({
@@ -11,7 +16,8 @@ export class TabMainPage {
   map: any;
 
   @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
-
+  user: User;
+  uid: string;
   infoWindows: any = [];
   markers: any = [
       {
@@ -36,10 +42,22 @@ export class TabMainPage {
     }
   ];
 
-  constructor() { }
+  constructor(private userService: UserService,
+              private db: AngularFireDatabase,
+              public fAauth: AngularFireAuth,
+              private router: Router) { }
 
   ionViewDidEnter() {
-    this.showMap();
+    this.fAauth.onAuthStateChanged((user) => {
+      if (!user) {
+        this.router.navigateByUrl('/login');
+      }
+      else {
+        this.uid = user.uid;
+        this.showMap();
+        this.userService.storeLoggedUser(user.uid);
+      }
+    });
   }
 
   addMarkersToMap(markers){
